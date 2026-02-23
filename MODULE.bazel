@@ -1,0 +1,25 @@
+module(
+    name = "zillarce",
+    version = "0.1.0"
+)
+
+# Teaches bazel how to compile Go code, run tests, and link binaries
+bazel_dep(
+    name = "rules_go", 
+    version = "0.60.0"
+)
+
+# Scans source code files and automatically updates corresponding BUILD files
+bazel_dep(
+    name = "gazelle", 
+    version = "0.47.0"
+)
+
+go_sdk = use_extension("@rules_go//go:extensions.bzl", "go_sdk")
+go_sdk.from_file(go_mod = "//:go.mod")
+
+# Tells Gazelle's extension to read go.mod and automatically generate Bazel targets for every library we "go get"
+go_deps = use_extension("@gazelle//:extensions.bzl", "go_deps")
+go_deps.from_file(go_mod = "//:go.mod") # go.mod is the source of truth for all dependenices in this project
+
+use_repo(go_sdk, "go_default_sdk")
