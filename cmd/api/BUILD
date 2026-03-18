@@ -5,7 +5,10 @@ go_library(
     srcs = ["main.go"],
     importpath = "github.com/Giovanni-Hernandez10/ZillaRCE/cmd/api",
     visibility = ["//visibility:private"],
-    deps = ["@com_github_gin_gonic_gin//:gin"],
+    deps = [
+        "//internal/sandbox",
+        "@com_github_gin_gonic_gin//:gin",
+    ],
 )
 
 go_binary(
